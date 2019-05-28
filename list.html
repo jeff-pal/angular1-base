@@ -1,0 +1,150 @@
+<html ng-app="listaApp">
+    <head>
+        <title>Jeff's Angular App - List - ng-repeat </title>
+        <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.css">
+        <script src="./node_modules/angular/angular.js"></script>
+        <script>
+            angular.module("listaApp", []);
+            angular.module("listaApp").controller("listaCtrl", function($scope) {
+                $scope.appName = "Jeff\'s Angular App"
+                $scope.contacts = [{name: "jeff", telephone: "123"}, {name: "lidia", telephone: "321"}];
+                $scope.placeholderName = "Names";
+                $scope.addContact1 = function () {
+                    if($scope.name===undefined | $scope.telephone===undefined) {
+                        alert("Some field is empty");
+                        delete $scope.name;
+                        delete $scope.telephone;
+                        return;
+                    }
+                    $scope.contacts.push({name: $scope.name, telephone: $scope.telephone});
+                    delete $scope.name;
+                    delete $scope.telephone;
+                } 
+                $scope.addContact2 = function (name2, telephone2) {
+                    if(name2===undefined | telephone2===undefined) {
+                        alert("Some field is empty")
+                        delete $scope.name2;
+                        delete $scope.telephone2;
+                        return;
+                    }                   
+                    $scope.contacts.push({name: name2, telephone: telephone2});
+                    delete $scope.name2;
+                    delete $scope.telephone2;
+                } 
+                $scope.addContact3 = function (contactsObject) {                   
+                    if(contactsObject===undefined) {
+                        alert("Fields are empty");
+                        return;
+                    }
+                    else if(contactsObject.name===undefined | contactsObject.telephone===undefined) {
+                        alert("Some field is empty");
+                        delete $scope.contactsObject;
+                        return;
+                    }
+                    $scope.contacts.push(contactsObject);
+                    delete $scope.contactsObject;
+                    // $scope.contactObject = '';
+                } 
+            })
+        </script>
+        <style>
+            .table {
+                margin-top: 20px;
+            }
+            .form-control {
+                margin-bottom: 5px;
+            }
+            hr {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+            .btn-primary {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+            h1 {
+                margin-bottom: 10px;
+                color: blue;
+            }
+            h3 {
+                margin-top: 10px;
+                margin-bottom: 10px;
+                color: grey;
+            }
+            ul {
+                margin-bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="jumbotron">
+
+            <h1>Angular</h1>
+            <h3>
+                In this project I present some examples of basic Angular functionalities:
+            </h3>
+            <ul>
+                <li>$scope</li>
+                <li>bind</li>
+                <li>double keys</li>
+                <li>table with ng-repeat</li>
+                <li>input with ng-model</li>
+                <li>button with ng-click</li>
+            </ul>
+            <div ng-controller="listaCtrl">
+                <!-- GET ELEMENTS FROM SCOP -->
+                <h4>1. Getting element from $scope with ng-bind:</h4>
+                <div ng-bind="appName"></div>
+                <br>
+                <h4>Getting element from $scope using double key:</h4>
+                <div>{{appName}}</div>
+                <hr/>
+
+                <!-- TABLE -->
+                <h4>2. Table with ng-repeat</h4>
+                <table class="table table-striped">
+                    <tr>
+                        <th>Name</th>
+                        <th>Telephone</th>
+                    </tr>
+                    <tr ng-repeat="contact in contacts">
+                        <td>{{contact.name}}</td>
+                        <td>{{contact.telephone}}</td>
+                    </tr>
+                </table>
+                <hr/>
+
+                <!-- INPUT FORM 1-->
+                <h4>3. Getting element from view and defining it in the controller with ng-model -  SEND PARAMETERS INVIDUALLY/h4>
+                <input class="form-control" type="text" ng-model="name" placeholder="Name" />
+                <input class="form-control" type="text" ng-model="telephone" placeholder="Telephone" />
+
+                <!-- Button - function with distinct parameters-->
+                <button class="btn btn-primary" ng-click="addContact1(name, telephone)">Add contect 1</button>
+                <hr/>
+
+                <!-- INPUT FORM 1-->
+                <h4>3. Getting element from view and defining it in the controller with ng-model -  SEND PARAMETERS INVIDUALLY/h4>
+                <input class="form-control" type="text" ng-model="name2" placeholder="Name" />
+                <input class="form-control" type="text" ng-model="telephone2" placeholder="Telephone" />
+
+                <!-- Button - function with distinct parameters-->
+                <button class="btn btn-primary" ng-click="addContact2(name2, telephone2)">Add contect 2</button>
+                <hr/>
+
+
+                <!-- INPUT FORM 2 -->
+                <h4>4. Getting element from view and defining it in the controller with ng-model - SEND ENTIRE OBJECT DATA</h4>
+                <input class="form-control" type="text" ng-model="contactsObject.name" placeholder="Name" />
+                <input class="form-control" type="text" ng-model="contactsObject.telephone" placeholder="Telephone" />
+
+                <!-- Button - function with distinct parameters-->
+                <button class="btn btn-primary" ng-click="addContact3(contactsObject)">Add contect 3</button>
+                <hr/>
+
+                <!-- LINK TO OTHER PAGE -->
+                <a href="./index.html">link to index.html</a>
+            </div>
+        </div>
+    </body>
+</html>

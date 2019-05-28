@@ -1,0 +1,20 @@
+<html ng-app="fractalApp">
+    <head>
+        <title>Fractal Project</title>
+        <script src="./node_modules/angular/angular.js"></script>
+        <script>
+            angular.module("fractalApp", []);
+            angular.module("fractalApp").controller("fractalAppCtrl", function ($scope) {
+                $scope.message = "test";
+                
+            })
+        </script>
+    </head>
+    <body>
+        <div ng-controller="fractalAppCtrl">
+            {{message}}
+        </div>
+        <a href="./lista.html">go</a>
+        
+    </body>
+</html>
