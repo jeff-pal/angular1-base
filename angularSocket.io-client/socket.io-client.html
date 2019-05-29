@@ -1,0 +1,53 @@
+<html ng-app="socketIO-Client">
+    <head>
+        <title>Angular Socket.io Client</title>
+        <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.css"></script>
+        <script src="node_modules/angular/angular.js"></script>
+        <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+        <script>
+            angular.module("socketIO-Client", []);
+            angular.module("socketIO-Client").controller("socketIO-Client-Ctrl", ($scope) => {
+                $scope.socketConnection = io.connect("http://localhost:8000");
+                $scope.socketConnection.on("reply", (data) => {
+                    $scope.textReply = data;
+                    delete $scope.inputText;
+                    $scope.$digest(); //without this command the $scope.reply value just change when the .on() function run for the second time.                    
+                });
+                $scope.sendText = function (clientSocket, text) {                   
+                    clientSocket.emit("conversation", text);
+                }
+            })
+            // var clientSocket = io.connect("http://localhost:8000");
+            function test(text) {
+                alert(text)
+            }
+        </script>
+        <style>
+            .btn, .btn-primary {
+                margin-top: 10px;
+                margin-bottom: 20px;
+            }
+            .page-title {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            footer {
+                color:lightslategrey;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="jumbotron" align="center">
+            <h1 class="page-title">Jeff's Angular Chat</h1>
+            <div ng-controller="socketIO-Client-Ctrl">
+                <h3>Input text</h3>
+                <textarea rows="4" cols="50" id="inputText" ng-model="inputText" placeholder="text"></textarea><br>
+                <button class="btn btn-primary" ng-click="sendText(socketConnection, inputText)">Send text</button>
+                <h3>Output text</h3>
+                <textarea readonly rows="4" cols="50" id="textReply" ng-model="textReply" placeholder="answer"></textarea><br>
+            </div>
+        </div>
+        <footer>Developed by Jeff Pal.</footer>
+    </body>
+
+</html>
