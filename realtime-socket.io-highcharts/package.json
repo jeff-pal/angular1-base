@@ -1,0 +1,15 @@
+{
+  "name": "realtime-socket.io-highcharts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jeff Pal",
+  "license": "MIT",
+  "dependencies": {
+    "highcharts": "^7.1.1",
+    "socket.io-client": "^2.2.0"
+  }
+}

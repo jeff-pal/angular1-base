@@ -1,0 +1,90 @@
+<!-- 
+    © 2019 Jeff Pal.  All rights reserved.
+    Project: Socket.io Server
+    Author: Jeff Pal
+    Git repository: https://github.com/jeff-pal
+    Helpfull reference: https://gist.github.com/luciopaiva/e6f60bd6e156714f0c5505c2be8e06d8
+ -->
+
+<html>
+    <head>
+        <title>Jeff's Real Time Chart</title>
+        <script src="node_modules/highcharts/highcharts.js"></script>
+        <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+    </head>
+    <body>
+        <div id="container"></div>
+        <script>
+            Highcharts.chart('container', {
+            chart: {
+                type: 'spline',
+                animation: Highcharts.svg, // don't animate in old IE
+                marginRight: 10,
+                events: {
+                load: function () {
+                    // set up the updating of the chart each second
+                    var series = this.series[0];
+                    var socket = io.connect("http://localhost:8000");
+                    socket.on("response", (data) => {
+                        series.addPoint(data, true, true);
+                        console.log(`Data received: ${data}`);
+                    })
+                    setInterval(() => {
+                        socket.emit("getData");
+                    }, 1000)
+                }
+                }
+            },
+
+            time: {
+                useUTC: false
+            },
+
+            title: {
+                text: 'Jeff\'s real time chart'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150
+            },
+            yAxis: {
+                title: {
+                text: 'Value'
+                },
+                plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+                }]
+            },
+            tooltip: {
+                headerFormat: '<b>{series.name}</b><br/>',
+                pointFormat: '{point.x:%Y-%m-%d %H:%M:%S}<br/>{point.y:.2f}'
+            },
+            legend: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            series: [{
+                name: 'Random data',
+                data: (function () {
+                // generate an array of random data
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+
+                for (i = -19; i <= 0; i += 1) {
+                    data.push({
+                    x: time + i * 1000,
+                    y: Math.random()
+                    });
+                }
+                return data;
+                }())
+            }]
+            });
+        </script>
+    </body>
+</html>
