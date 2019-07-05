@@ -1,0 +1,264 @@
+<html>
+
+<head>
+    <script src="https://code.highcharts.com/highcharts.js"></script>    
+    <script src="https://code.highcharts.com/maps/modules/map.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="http://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="https://code.highcharts.com/modules/bullet.js"></script>
+
+</head>
+
+<body>
+    <div id="auscultationResumeGraph"></div>
+    <div id="gaugeChart"></div>
+    <div id="bulletChart" align="center" style="width: 50%"></div>
+    <script>
+
+        
+        var donutsChart = function (pendentes, atrasadas) {
+            Highcharts.chart('auscultationResumeGraph', {
+                chart: {
+                    type: 'pie',
+                    options3d: {
+                        enabled: true,
+                        alpha: 45
+                    },
+                },
+                credits: {
+                    enabled: false
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y})'
+                },
+                title: {
+                    text: 'Campanhas de Auscultação'
+                },
+                subtitle: {
+                    text: 'Fique atento as campanhas atrasadas',
+                },
+                plotOptions: {
+                    pie: {
+                        innerSize: 80,
+                        depth: 45,
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.y} ({point.percentage:.1f} %)',
+                            // distance: '-30%'
+                        }
+                    }
+                },
+                colors: ['#eca445', '#3f999b'],
+                series: [{
+                    name: 'Número de campanhas',
+                    data: [
+                        ['Pendentes', pendentes],
+                        ['Atrasadas', atrasadas],
+
+                    ],
+                    dataLabels: {
+                        enabled: true
+                    }
+                }]
+            });
+        }
+
+        var gaugeChart = function () {
+            // The speed gauge
+            Highcharts.chart('gaugeChart', {
+                chart: {
+                    type: 'solidgauge',
+
+                },
+
+                title: null,
+
+                pane: {
+                    center: ['50%', '85%'],
+                    startAngle: -90,
+                    endAngle: 90,
+                    background: {
+                        backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#f0d7b5',
+                        innerRadius: '60%',
+                        outerRadius: '100%',
+                        shape: 'arc'
+                    }
+                },
+
+                tooltip: {
+                    enabled: false
+                },
+
+                // the value axis
+                yAxis: {
+                    stops: [
+                        [80, '#eca444'],
+                        [0.5, '#F66E20'],
+                        [0.9, '#F66E20']
+                    ],
+                    lineWidth: 0,
+                    minorTickInterval: null,
+                    tickPixelInterval: 400,
+                    tickWidth: 0,
+                    title: {
+                        y: -70
+                    },
+                    labels: {
+                        enabled: false,
+                        //y: 169
+                    },
+                    title: {
+                        verticalAlign: "top",
+                        text: 'Acúmulo',
+                        style: { "color": "#333333", "fontSize": "18px" },
+                        x: 0,
+                        y: -100
+                    }
+                },
+
+                plotOptions: {
+                    solidgauge: {
+                        dataLabels: {
+                            y: 5,
+                            borderWidth: 0,
+                            useHTML: true
+                        }
+                    }
+                },
+                title: {
+                    align: "left",
+                    floating: false,
+                    margin: 15,
+                    style: { "color": "#333333", "fontSize": "10px" },
+                    text: "ADEQUADO",
+                    useHTML: false,
+                    verticalAlign: "bottom",
+                    x: 25,
+                    y: -30
+                },
+                subtitle: {
+                    align: "right",
+                    floating: false,
+                    style: { "color": "#333333", "fontSize": "10px" },
+                    text: "EMERGÊNCIA",
+                    useHTML: false,
+                    verticalAlign: "bottom",
+                    x: -15,
+                    y: -30
+                },
+
+
+                credits: {
+                    enabled: false
+                },
+
+                series: [{
+                    name: '',
+                    data: [80],
+
+                    dataLabels: {
+                        verticalAlign: "top",
+
+                        x: 0,
+                        y: -70,
+                        format: '<div style="text-align:center"><span style="font-size:15px;color:' +
+                            ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}%</span><br/>' +
+                            '<span style="font-size:10px;color:silver">VIOLATIONS</span></div>'
+                    }
+                }]
+
+            });
+        }
+
+        var bulletChart = function () {
+            Highcharts.chart('bulletChart', {
+                chart: {
+                    inverted: true,
+                    marginLeft: 10,
+                    type: 'bullet',
+                    height: 130,
+                    marginTop: 40
+                },
+                title: {
+                    text: '',
+
+                },
+                plotOptions: {
+                    series: {
+                        pointPadding: 0.25,
+                        borderWidth: 0,
+                        color: '#000',
+                        targetOptions: {
+                            width: '200%'
+                        }
+                    }
+                },
+                credits: {
+                    enabled: false
+                },
+                exporting: {
+                    enabled: false
+                },
+                legend: {
+                    enabled: false
+                },
+                xAxis: {
+                    categories: ['<span class="hc-cat-title">Nível</span>']
+                },
+                yAxis: {
+                    gridLineWidth: 0,
+                    plotBands: [{
+                        from: 0,
+                        to: 150,
+                        color: '#666',
+                        label: {
+                            text: 'Média', // Content of the label. 
+                            align: 'center', // Positioning of the label. 
+                            y: -5
+
+                        },
+                    }, {
+                        from: 150,
+                        to: 225,
+                        color: '#999',
+                        label: {
+                            text: 'Engolimento', // Content of the label. 
+                            align: 'center', // Positioning of the label. 
+                            y: -5
+
+                        },
+                    }, {
+                        from: 225,
+                        to: 9e9,
+                        color: '#e89e9e',
+                        label: {
+                            text: 'Vertimento', // Content of the label. 
+                            align: 'center', // Positioning of the label. 
+                            y: -5
+
+                        },
+                    }],
+                    title: 'test'
+                },
+                series: [{
+                    data: [{
+                        y: 275,
+                        target: 250
+                    }]
+                }],
+                tooltip: {
+                    pointFormat: '<b>{point.y}</b> (with target at {point.target})'
+                }
+            });
+        }
+    
+        donutsChart(10, 20);
+        gaugeChart();
+        bulletChart();
+    </script>
+
+</body>
+
+</html>
