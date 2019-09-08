@@ -31,7 +31,7 @@
   <!-- <script src="https://code.jquery.com/jquery-1.11.0.min.js"
     integrity="sha256-spTpc4lvj4dOkKjrGokIrHkJgNA0xMS98Pw9N7ir9oI=" crossorigin="anonymous"></script> -->
   <script
-    src="https://maps.googleapis.com/maps/api/js?key=<PUT_YOUR_API_KEY_HERE>&libraries=places"></script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCFuyBO4cLhuXuP2Lk0CfB7Av8IB8R6qk&libraries=places"></script>
   <script>
     var map;
     var data = {
@@ -53,6 +53,7 @@
         center: { lat: -27.6727095, lng: -48.3980576 }
       });
 
+      map.setOptions( { fillColor: 'red' }); 
       var features = map.data.addGeoJson(data);
       google.maps.event.addDomListener(document.getElementById('removeBtn'), 'click', function () {
         var buttonText = document.getElementById('removeBtn').firstChild;
